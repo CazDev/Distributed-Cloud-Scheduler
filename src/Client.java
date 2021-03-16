@@ -48,7 +48,7 @@ public class Client
 		String[] job = null;
 		
         // keep reading until "QUIT" is input 
-        while (!outStr.equals("QUIT\n")) 
+        while (!outStr.equals("QUIT")) 
         { 
             try
             { 
@@ -58,36 +58,38 @@ public class Client
 					step++;
 					break;
 				}
-				case 2:{
+				case 1:{
 					outStr = "AUTH user";
 					step++;
 					break;
 				}
 				
 				case 4:{
-					// read ds-syste,.xml here
+					// read ds-system.xml here
 					// then
 					outStr = "REDY";
 					step++;
 					break;
 				}
 				default:{
-					// Wait for keyboard input
 					outStr = input.readLine();
 				}
-
-
 			}
             
             // Display outgoing message from client
 			System.out.println("OUT: " + outStr);
-            
-			// new line
-			outStr+="\n";
 			
 			byte[] byteMsg = outStr.getBytes();
-			out.write(byteMsg);	                        
-			inStr = in.readLine();
+			out.write(byteMsg);
+			
+			// read string sent from server
+			char[] cbuf = new char[10];
+			in.read(cbuf);
+			inStr = new String(cbuf, 0, cbuf.length);
+			
+			if (inStr=="OK") {
+				
+			}
 			
             // Display incoming message from server
 			System.out.println("INC: " + inStr);
