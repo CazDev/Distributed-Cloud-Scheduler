@@ -117,7 +117,7 @@ public class Client
   
     public static void main(String args[]) 
     { 
-        Client client = new Client("192.168.253.134", 50000); 
+        Client client = new Client("127.0.0.1", 50000); 
     } 
     
     public class Server{
