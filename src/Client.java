@@ -59,7 +59,7 @@ public class Client
 					break;
 				}
 				case 2:{
-					outStr = "AUTH t";
+					outStr = "AUTH user";
 					step++;
 					break;
 				}
