@@ -64,7 +64,7 @@ public class Client
 					break;
 				}
 				
-				case 4:{
+				case 2:{
 					// read ds-system.xml here
 					// then
 					outStr = "REDY";
