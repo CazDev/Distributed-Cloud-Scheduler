@@ -1,4 +1,12 @@
-import java.net.*; 
+import java.net.*;
+import java.util.ArrayList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+
 import java.io.*;
 
 public class Client 
@@ -122,7 +130,12 @@ public class Client
         Client client = new Client("127.0.0.1", 50000); 
     } 
     
-    public class Server{
+    private static void recurveClimb(Node item) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public class Server{
     	String[] serverData = null;
     	public Server(String a){
     		serverData = a.split(" ");
