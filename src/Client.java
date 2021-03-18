@@ -64,6 +64,13 @@ public class Client {
 				case 3: {
 					// check for no jobs: code "NONE"
 					// handle quit: code "QUIT"
+
+					if (inStr.contains("NONE")){
+						outStr = "QUIT";
+						break;
+					} 
+
+				
 				}
 
 				default: {
@@ -95,10 +102,8 @@ public class Client {
 		byte[] byteMsg = q.getBytes();
 
 		try {
-
 			out.write(byteMsg);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
