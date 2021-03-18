@@ -37,6 +37,10 @@ public class Client {
 		int step = 0;
 
 		// keep reading until "QUIT" is input
+
+		// TODO: HAND-SHAKE SHOULD BE OUTSIDE OF WHILE LOOP
+		// TODO: Use of switch/increment is inefficient
+		
 		while (!outStr.equals("QUIT")) {
 			try {
 				switch (step) {
