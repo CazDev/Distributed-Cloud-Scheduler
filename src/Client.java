@@ -223,8 +223,8 @@ public class Client {
 
 		// hourlyRate: the monetary cost for renting a server of a particular type per
 		// hour
-		public int getHourlyRate() {
-			return Integer.parseInt(serverData[3]);
+		public float getHourlyRate() {
+			return Float.parseFloat(serverData[3]);
 		}
 
 		//
