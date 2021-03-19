@@ -45,6 +45,7 @@ public class Client {
 		// Hand-shake completed - client now connected
 		connected = true;
 
+
 		sendMessage("REDY");
 
 		// if client receive's NONE; send quit and set connected to false
@@ -52,7 +53,6 @@ public class Client {
 			sendMessage("QUIT");
 			connected = false;
 		}
-
 	
 		// allow user to input messages until 'QUIT' is sent
 		while (connected){
@@ -65,16 +65,21 @@ public class Client {
 				break;
 			}
 
-			// first send message before we check for incoming messages
+			// send first, THEN read messages
 			sendMessage(outStr);
 
 			readMessage();
 
+			// read message happens on seperate thread
+			// Thread t = new Thread(() -> {
+			// 	readMessage();
+			// });
+			// t.start();
 		}
 
 		// close the connection
 		try {
-			
+
 			// QUIT hand-shake, must receive confirmation from server for quit
 			if (readMessage().contains("QUIT")){
 				input.close();
@@ -105,6 +110,8 @@ public class Client {
 	}
 
 	private String readMessage () {
+		
+		
 		// read string sent from server
 		String inStr = "";
 		char[] cbuf = new char[65535];
