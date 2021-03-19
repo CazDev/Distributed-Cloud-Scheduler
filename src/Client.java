@@ -26,89 +26,19 @@ public class Client {
 		// gets input from server
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-		// Outgoing message
-		String outStr = "";
-		// Incoming message
-		String inStr = "";
-		// Error from server
-		boolean error = false;
+		// Initial handshake
+		sendMessage("HELO");
+		readMessage();
+		sendMessage("AUTH user");
+		readMessage();
+		//
+		// read xml file here
+		//
 
-		// Protocol step
-		int step = 0;
+		sendMessage("REDY");
 
-		// keep reading until "QUIT" is input
-
-		// TODO: HAND-SHAKE SHOULD BE OUTSIDE OF WHILE LOOP
-		// TODO: Use of switch/increment is inefficient
-		
-		while (!outStr.equals("QUIT")) {
-			try {
-				switch (step) {
-				case 0: {
-					outStr = "HELO";
-					step++;
-					break;
-				}
-
-				case 1: {
-					outStr = "AUTH user";
-					step++;
-					break;
-				}
-
-				case 2: {
-					// read ds-system.xml here
-					// then
-
-					outStr = "REDY";
-					step++;
-					break;
-				}
-				
-				case 3: {
-					// check for no jobs: code "NONE"
-					// handle quit: code "QUIT"
-
-					if (inStr.contains("NONE")){
-						outStr = "QUIT";
-						break;
-					} 
-
-				
-				}
-
-				default: {
-					outStr = input.readLine();
-				}
-				}
-
-				// Display outgoing message from client
-				System.out.println("OUT: " + outStr);
-
-				byte[] byteMsg = outStr.getBytes();
-				out.write(byteMsg);
-
-				// read string sent from server
-				char[] cbuf = new char[65535];
-				in.read(cbuf);
-				inStr = new String(cbuf, 0, cbuf.length);
-
-				// Display incoming message from server
-				System.out.println("INC: " + inStr);
-
-			} catch (IOException i) {
-				System.out.println(i);
-			}
-		}
-
-		// check for quit
-		String q = "QUIT";
-		byte[] byteMsg = q.getBytes();
-
-		try {
-			out.write(byteMsg);
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (readMessage() == "NONE") {
+			sendMessage("QUIT");
 		}
 
 		// close the connection
@@ -122,6 +52,36 @@ public class Client {
 
 		// Exit the program
 		System.exit(1);
+	}
+
+	private void sendMessage (String outStr) {
+		// send message to server
+		byte[] byteMsg = outStr.getBytes();
+		try {
+			out.write(byteMsg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// Display outgoing message from client
+		System.out.println("OUT: " + outStr);
+	}
+
+	private String readMessage () {
+		// read string sent from server
+		String inStr = "";
+		char[] cbuf = new char[65535];
+		try {
+			in.read(cbuf);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		inStr = new String(cbuf, 0, cbuf.length);
+
+		// Display incoming message from server
+		System.out.println("INC: " + inStr);
+
+		return inStr;
 	}
 
 	private static void connect(String address, int port) {
