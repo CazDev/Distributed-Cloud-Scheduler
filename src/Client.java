@@ -92,7 +92,7 @@ public class Client {
 	private String readMessage () {
 		// read string sent from server
 		String inStr = "";
-		char[] cbuf = new char[65535];
+		char[] cbuf = new char[Integer.MAX_VALUE];
 		try {
 			in.read(cbuf);
 		} catch (IOException e) {
