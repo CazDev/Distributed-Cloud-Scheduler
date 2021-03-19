@@ -47,8 +47,10 @@ public class Client {
 
 		sendMessage("REDY");
 
-		if (readMessage() == "NONE") {
+		// if client receive's NONE; send quit and set connected to false
+		if (readMessage().contains("NONE")) {
 			sendMessage("QUIT");
+			connected = false;
 		}
 
 	
@@ -63,11 +65,17 @@ public class Client {
 				break;
 			}
 
+			// first send message before we check for incoming messages
 			sendMessage(outStr);
+
+			readMessage();
+
 		}
 
 		// close the connection
 		try {
+			
+			// QUIT hand-shake, must receive confirmation from server for quit
 			if (readMessage().contains("QUIT")){
 				input.close();
 				out.close();
