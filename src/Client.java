@@ -9,6 +9,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+
 import java.io.*;
 
 public class Client {
@@ -18,33 +19,6 @@ public class Client {
 	private DataOutputStream out = null;
 	private BufferedReader in = null;
 	
-	public static void readXML(){
-        try {
-			File systemXML = new File("src/ds-system.xml");
-			
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(systemXML);
-
-			doc.getDocumentElement().normalize();
-			ArrayList<Server> servers = new ArrayList<Server>();
-			for (int i = 0; i < servers.size(); i++) {
-				Server server = servers.get(i);
-				String t = server.getType();
-				
-				int l = server.getLimit();
-				int b = server.getBootupTime();
-				float hr = server.getHourlyRate();
-				int c = server.getCores();
-				int m = server.getMemory();
-				int d = server.getDisk();
-				
-				server.getServerData();
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-    }
 
 	// constructor to put ip address and port
 	public Client(String address, int port) throws IOException {
@@ -76,8 +50,14 @@ public class Client {
 		//
 		// read xml file here
 		//
-		readXML();
 
+		ArrayList<Server> t = new ArrayList<Server>();
+		t = rXML();
+
+		for (int i = 0; i < t.size(); i++){
+			t.get(i).printData();
+		}
+		
 		// Hand-shake completed - client now connected
 		connected = true;
 
@@ -189,73 +169,44 @@ public class Client {
 	}
 
 	public static void main(String args[]) throws IOException {
-		Client client = new Client("192.168.253.134", 50000);
+		Client client = new Client("127.0.0.1", 50000);
 	}
 
-	public class Server {
-		String[] serverData = null;
+	public static ArrayList<Server> rXML(){
+        ArrayList<Server> serverList = new ArrayList<Server>();
+		
+		try {
+			File systemXML = new File("ds-system.xml");
 
-		public Server(String a) {
-			serverData = a.split(" ");
-		}
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(systemXML);
 
-		//
-		// Identification
-		//
-		// id: a sequence number based on the submission time
-		public String getId() {
-			return serverData[0];
-		}
+			
 
-		// type: an identifier of job category based on run time
-		public String getType() {
-			return serverData[1];
-		}
-
-		//
-		// Timing
-		//
-		// limit: the number of servers of a particular type
-		public int getLimit() {
-			return Integer.parseInt(serverData[2]); // the number of servers of a particular type
-		}
-
-		// bootupTime: the amount of time taken to boot a server of a particular type
-		public int getBootupTime() {
-			return Integer.parseInt(serverData[3]);
-		}
-
-		// hourlyRate: the monetary cost for renting a server of a particular type per
-		// hour
-		public int getHourlyRate() {
-			return Integer.parseInt(serverData[3]);
-		}
-
-		//
-		// Resource requirements
-		//
-		// core: the number of CPU cores
-		public int getCores() {
-			return Integer.parseInt(serverData[4]);
-		}
-
-		// memory: the amount of RAM (in MB)
-		public int getMemory() {
-			return Integer.parseInt(serverData[5]);
-		}
-
-		// disk: the amount of disk space (in MB)
-		public int getDisk() {
-			return Integer.parseInt(serverData[6]);
-		}
-
-		// get string containing server data separated by white spaces
-		public String getServerData() {
-			String data = "";
-			for (String str : serverData) {
-				data += str + " ";
+			doc.getDocumentElement().normalize();
+			NodeList servers = doc.getElementsByTagName("server");
+			for (int i = 0; i < servers.getLength(); i++) {
+				Element svr = (Element) servers.item(i);
+				String t = svr.getAttribute("type");
+				int l = Integer.parseInt(svr.getAttribute("limit"));
+				int b = Integer.parseInt(svr.getAttribute("bootupTime"));
+				float hr = Float.parseFloat(svr.getAttribute("hourlyRate"));
+				int c = Integer.parseInt(svr.getAttribute("coreCount"));
+				int m = Integer.parseInt(svr.getAttribute("memory"));
+				int d = Integer.parseInt(svr.getAttribute("disk"));
+				
+				
+				Server server = new Server(t,l,b,hr,c,m,d);
+				serverList.add(server);
 			}
-			return data;
+
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
-	}
+		return serverList;
+    }
+
+	
 }
