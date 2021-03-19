@@ -1,4 +1,5 @@
 import java.net.*;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -19,24 +20,26 @@ public class Client {
 	
 	public static void readXML(){
         try {
-			File systemXML = new File("./ds-system.xml");
-
+			File systemXML = new File("src/ds-system.xml");
+			
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(systemXML);
 
 			doc.getDocumentElement().normalize();
-			NodeList servers = doc.getElementsByTagName("server");
-			for (int i = 0; i < servers.getLength(); i++) {
-				Element server = (Element) servers.item(i);
-				String t = server.getAttribute("type");
-				int l = Integer.parseInt(server.getAttribute("limit"));
-				int b = Integer.parseInt(server.getAttribute("bootupTime"));
-				float hr = Float.parseFloat(server.getAttribute("hourlyRate"));
-				int c = Integer.parseInt(server.getAttribute("coreCount"));
-				int m = Integer.parseInt(server.getAttribute("memory"));
-				int d = Integer.parseInt(server.getAttribute("disk"));
-				System.out.print(t);
+			ArrayList<Server> servers = new ArrayList<Server>();
+			for (int i = 0; i < servers.size(); i++) {
+				Server server = servers.get(i);
+				String t = server.getType();
+				
+				int l = server.getLimit();
+				int b = server.getBootupTime();
+				float hr = server.getHourlyRate();
+				int c = server.getCores();
+				int m = server.getMemory();
+				int d = server.getDisk();
+				
+				server.getServerData();
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -73,6 +76,7 @@ public class Client {
 		//
 		// read xml file here
 		//
+		readXML();
 
 		// Hand-shake completed - client now connected
 		connected = true;
@@ -185,7 +189,7 @@ public class Client {
 	}
 
 	public static void main(String args[]) throws IOException {
-		Client client = new Client("127.0.0.1", 50000);
+		Client client = new Client("192.168.253.134", 50000);
 	}
 
 	public class Server {
@@ -223,8 +227,8 @@ public class Client {
 
 		// hourlyRate: the monetary cost for renting a server of a particular type per
 		// hour
-		public float getHourlyRate() {
-			return Float.parseFloat(serverData[3]);
+		public int getHourlyRate() {
+			return Integer.parseInt(serverData[3]);
 		}
 
 		//
