@@ -26,6 +26,12 @@ public class Client {
 		// gets input from server
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
+		// keep track of if we are connected to server or not
+		boolean connected = false;
+
+		// client input
+		String outStr = "";
+
 		// Initial handshake
 		sendMessage("HELO");
 		readMessage();
@@ -35,10 +41,26 @@ public class Client {
 		// read xml file here
 		//
 
+		connected = true;
+
 		sendMessage("REDY");
 
 		if (readMessage() == "NONE") {
 			sendMessage("QUIT");
+		}
+
+	
+		// allow user to input messages until 'QUIT' is sent
+		while (connected){
+			sendMessage(outStr);
+
+			outStr = input.readLine();
+
+			if (outStr.equals("QUIT")){
+				connected = false;
+				sendMessage("QUIT");
+			}
+
 		}
 
 		// close the connection
