@@ -1,6 +1,12 @@
 import java.net.*;
 import java.util.concurrent.TimeUnit;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import java.io.*;
 
@@ -10,6 +16,32 @@ public class Client {
 	private BufferedReader input = null;
 	private DataOutputStream out = null;
 	private BufferedReader in = null;
+	
+	public static void readXML(){
+        try {
+			File systemXML = new File("./ds-system.xml");
+
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(systemXML);
+
+			doc.getDocumentElement().normalize();
+			NodeList servers = doc.getElementsByTagName("server");
+			for (int i = 0; i < servers.getLength(); i++) {
+				Element server = (Element) servers.item(i);
+				String t = server.getAttribute("type");
+				int l = Integer.parseInt(server.getAttribute("limit"));
+				int b = Integer.parseInt(server.getAttribute("bootupTime"));
+				float hr = Float.parseFloat(server.getAttribute("hourlyRate"));
+				int c = Integer.parseInt(server.getAttribute("coreCount"));
+				int m = Integer.parseInt(server.getAttribute("memory"));
+				int d = Integer.parseInt(server.getAttribute("disk"));
+				System.out.print(t);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+    }
 
 	// constructor to put ip address and port
 	public Client(String address, int port) throws IOException {
