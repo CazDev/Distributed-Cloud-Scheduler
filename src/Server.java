@@ -15,6 +15,7 @@ public class Server {
 			this.type = s;
 			this.limit = l;
 			this.bootTime = bt;
+            this.hourlyRate = hr;
 			this.coreCount = cc;
 			this.memory = m;
 			this.disk = d;
