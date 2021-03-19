@@ -11,14 +11,14 @@ public class Server {
 		int memory; 
 		int disk;
 
-		public Server(String s, int l, int bt, float hr, int cc, int m, int d){
-			this.type = s;
-			this.limit = l;
-			this.bootTime = bt;
-            this.hourlyRate = hr;
-			this.coreCount = cc;
-			this.memory = m;
-			this.disk = d;
+		public Server(String type, int limit, int bootTime, float hourlyRate, int coreCount, int memory, int disk){
+			this.type = type;
+			this.limit = limit;
+			this.bootTime = bootTime;
+            this.hourlyRate = hourlyRate;
+			this.coreCount = coreCount;
+			this.memory = memory;
+			this.disk = disk;
 		}
 
 

@@ -83,14 +83,7 @@ public class Client {
 
 			// send first, THEN read messages
 			sendMessage(outStr);
-
 			readMessage();
-
-			// read message happens on seperate thread
-			// Thread t = new Thread(() -> {
-			// 	readMessage();
-			// });
-			// t.start();
 		}
 
 		// close the connection
@@ -187,18 +180,19 @@ public class Client {
 			doc.getDocumentElement().normalize();
 			NodeList servers = doc.getElementsByTagName("server");
 			for (int i = 0; i < servers.getLength(); i++) {
-				Element svr = (Element) servers.item(i);
-				String t = svr.getAttribute("type");
-				int l = Integer.parseInt(svr.getAttribute("limit"));
-				int b = Integer.parseInt(svr.getAttribute("bootupTime"));
-				float hr = Float.parseFloat(svr.getAttribute("hourlyRate"));
-				int c = Integer.parseInt(svr.getAttribute("coreCount"));
-				int m = Integer.parseInt(svr.getAttribute("memory"));
-				int d = Integer.parseInt(svr.getAttribute("disk"));
+				Element server = (Element) servers.item(i);
+
+				// Parse all XML attributes to new Server object
+				String type = server.getAttribute("type");
+				int limit = Integer.parseInt(server.getAttribute("limit"));
+				int bootupTime = Integer.parseInt(server.getAttribute("bootupTime"));
+				float hourlyRate = Float.parseFloat(server.getAttribute("hourlyRate"));
+				int coreCount = Integer.parseInt(server.getAttribute("coreCount"));
+				int memory = Integer.parseInt(server.getAttribute("memory"));
+				int disk = Integer.parseInt(server.getAttribute("disk"));
 				
-				
-				Server server = new Server(t,l,b,hr,c,m,d);
-				serverList.add(server);
+				Server s = new Server(type,limit,bootupTime,hourlyRate,coreCount,memory,disk);
+				serverList.add(s);
 			}
 
 			
