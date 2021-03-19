@@ -37,10 +37,12 @@ public class Client {
 		readMessage();
 		sendMessage("AUTH user");
 		readMessage();
+
 		//
 		// read xml file here
 		//
 
+		// Hand-shake completed - client now connected
 		connected = true;
 
 		sendMessage("REDY");
@@ -52,22 +54,27 @@ public class Client {
 	
 		// allow user to input messages until 'QUIT' is sent
 		while (connected){
-			sendMessage(outStr);
-
+			
 			outStr = input.readLine();
 
 			if (outStr.equals("QUIT")){
 				connected = false;
 				sendMessage("QUIT");
+				break;
 			}
 
+			sendMessage(outStr);
 		}
 
 		// close the connection
 		try {
-			input.close();
-			out.close();
-			socket.close();
+			if (readMessage().contains("QUIT")){
+				input.close();
+				out.close();
+				socket.close();
+			}
+				
+			
 		} catch (IOException i) {
 			System.out.println(i);
 		}
@@ -92,7 +99,7 @@ public class Client {
 	private String readMessage () {
 		// read string sent from server
 		String inStr = "";
-		char[] cbuf = new char[Integer.MAX_VALUE];
+		char[] cbuf = new char[65535];
 		try {
 			in.read(cbuf);
 		} catch (IOException e) {
