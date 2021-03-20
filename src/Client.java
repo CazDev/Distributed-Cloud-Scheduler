@@ -44,6 +44,8 @@ public class Client {
 		// Initial handshake
 		sendMessage("HELO");
 		readMessage();
+
+		// Send user details
 		sendMessage("AUTH user");
 		readMessage();
 
@@ -58,7 +60,7 @@ public class Client {
 		// Hand-shake completed - client now connected
 		connected = true;
 
-
+		// Tells client it is ready to recieve commands
 		sendMessage("REDY");
 
 		// if client receive's NONE; send quit and set connected to false
