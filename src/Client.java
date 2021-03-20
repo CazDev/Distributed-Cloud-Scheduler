@@ -34,7 +34,9 @@ public class Client {
 
 		// gets input from server
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+	}
 
+	private void start () {
 		// keep track of if we are connected to server or not
 		boolean connected = false;
 
@@ -72,7 +74,11 @@ public class Client {
 		// allow user to input messages until 'QUIT' is sent
 		while (connected){
 			
-			outStr = input.readLine();
+			try {
+				outStr = input.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 
 			if (outStr.equals("QUIT")){
 				connected = false;
@@ -160,6 +166,7 @@ public class Client {
 
 	public static void main(String args[]) throws IOException {
 		Client client = new Client("127.0.0.1", 50000);
+		client.start();
 	}
 
 	public static ArrayList<Server> readXML(String fileName){
