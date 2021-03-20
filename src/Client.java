@@ -47,12 +47,9 @@ public class Client {
 		sendMessage("AUTH user");
 		readMessage();
 
-		//
-		// read xml file here
-		//
-
+		// read ds-system xml file and populate Server ArrayList
 		ArrayList<Server> t = new ArrayList<Server>();
-		t = rXML();
+		t = readXML("ds-system.xml");
 
 		for (int i = 0; i < t.size(); i++){
 			t.get(i).printData();
@@ -119,8 +116,6 @@ public class Client {
 	}
 
 	private String readMessage () {
-		
-		
 		// read string sent from server
 		String inStr = "";
 		char[] cbuf = new char[65535];
@@ -165,17 +160,17 @@ public class Client {
 		Client client = new Client("127.0.0.1", 50000);
 	}
 
-	public static ArrayList<Server> rXML(){
+	public static ArrayList<Server> readXML(String fileName){
         ArrayList<Server> serverList = new ArrayList<Server>();
 		
 		try {
-			File systemXML = new File("ds-system.xml");
+			// XML file to read
+			File systemXML = new File(fileName);
 
+			// Setup XML document parser
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(systemXML);
-
-			
 
 			doc.getDocumentElement().normalize();
 			NodeList servers = doc.getElementsByTagName("server");
