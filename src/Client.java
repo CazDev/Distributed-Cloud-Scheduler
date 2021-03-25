@@ -63,7 +63,8 @@ public class Client {
 			}
 		}
 
-		System.out.println("Largest server: " + t.get(largest).getType() + " " + t.get(largest).getCores());
+		// 
+		System.out.println("[Largest server: " + t.get(largest).getType() + " " + t.get(largest).getCores()+"]");
 		
 		// Hand-shake completed - client now connected
 		connected = true;
@@ -80,10 +81,31 @@ public class Client {
 			sendMessage("QUIT");
 			connected = false;
 		} else if (msg.contains("JOBN ")){
-			sendMessage("SCHD 0 " + t.get(largest).getType() + " " + (t.get(largest).getLimit()-1));
-			readMessage();
+			
+			/* 	TODO:
+				This is a little test to try and loop through as many jobs.
+				so far all jobs are scheduled to the largest server (largest core count).
+				We need to receive Strings that start with JOBN etc. and split up the string.
+				From here, we can take apart this JOBN string (for example),
+					and choose the best servers based on core count etc.
+					To do this we can have a function that will take in these strings
+					and decide what to do based on these paramters...
+			*/
+
+			int jobNo = 0;
+			while (!msg.contains("ERR")){
+				sendMessage("SCHD " + jobNo + " " + t.get(largest).getType() + " " + (t.get(largest).getLimit()-1));
+				msg = readMessage();
+				sendMessage("REDY");
+				readMessage();
+				jobNo ++;
+			}
+			
+			// the code above works up until JOB #6, as it sends us JCPL rather than JOBN...
+			
 		}
 
+		
 		
 		// allow user to input messages until 'QUIT' is sent
 		while (connected){
@@ -103,7 +125,6 @@ public class Client {
 			// send first, THEN read messages
 			sendMessage(outStr);
 			readMessage();
-
 
 		}
 
