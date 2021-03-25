@@ -55,9 +55,15 @@ public class Client {
 		ArrayList<Server> t = new ArrayList<Server>();
 		t = readXML("ds-system.xml");
 
+		int largest = 0;
+		
 		for (int i = 0; i < t.size(); i++){
-			t.get(i).printData();
+			if (t.get(i).getCores() > largest){
+				largest = i;
+			}
 		}
+
+		System.out.println("Largest server: " + t.get(largest).getType() + " " + t.get(largest).getCores());
 		
 		// Hand-shake completed - client now connected
 		connected = true;
@@ -65,12 +71,20 @@ public class Client {
 		// Tells client it is ready to recieve commands
 		sendMessage("REDY");
 
+		// temp string to hold readMessage data
+		String msg = readMessage();
+		
 		// if client receive's NONE; send quit and set connected to false
-		if (readMessage().contains("NONE")) {
+		// otherwise, we receive JOBN and continue with program
+		if (msg.contains("NONE")) { 
 			sendMessage("QUIT");
 			connected = false;
+		} else if (msg.contains("JOBN ")){
+			sendMessage("SCHD 0 " + t.get(largest).getType() + " " + (t.get(largest).getLimit()-1));
+			readMessage();
 		}
-	
+
+		
 		// allow user to input messages until 'QUIT' is sent
 		while (connected){
 			
@@ -89,6 +103,8 @@ public class Client {
 			// send first, THEN read messages
 			sendMessage(outStr);
 			readMessage();
+
+
 		}
 
 		// close the connection
