@@ -55,8 +55,8 @@ public class Client {
 		ArrayList<Server> t = new ArrayList<Server>();
 		t = readXML("ds-system.xml");
 
+		// find index of server with most cores ie, the largest
 		int largest = 0;
-		
 		for (int i = 0; i < t.size(); i++){
 			if (t.get(i).getCores() > largest){
 				largest = i;
@@ -77,46 +77,26 @@ public class Client {
 		String msg = readMessage();
 		
 		// if client receive's NONE; send quit and set connected to false
-		// otherwise, we receive JOBN and continue with program
 		if (msg.contains("NONE")) { 
 			sendMessage("QUIT");
 			connected = false;
-		} else if (msg.contains("JOBN ")){
-			
-			/* 	TODO:
-				This is a little test to try and loop through as many jobs.
-				so far all jobs are scheduled to the largest server (largest core count).
-				We need to receive Strings that start with JOBN etc. and split up the string.
-				From here, we can take apart this JOBN string (for example),
-					and choose the best servers based on core count etc.
-					To do this we can have a function that will take in these strings
-					and decide what to do based on these paramters...
-			*/
+		} 
+		
+		// SCHEDULES JOB TO LARGEST SERVER
+		while (!msg.contains("NONE")){
 
-			int jobNo = 0;
-			while (!msg.contains("NONE")){
-				
-				if (msg.contains("JCPL")){
-					sendMessage("REDY");
-					msg = readMessage();
-				} else {
-					sendMessage("SCHD " + jobNo + " " + t.get(largest).getType() + " " + (t.get(largest).getLimit()-1));
-					msg = readMessage();
+			if (msg.contains("JCPL")){
+				sendMessage("REDY");
+				msg = readMessage();
+			} else {
+				sendMessage(toLargest(msg, t.get(largest)));
+				msg = readMessage();
 
-					sendMessage("REDY");
-					msg = readMessage();
-
-					jobNo ++;
-				}
-
-				
+				sendMessage("REDY");
+				msg = readMessage();
 			}
-			
-			// the code above works up until JOB #6, as it sends us JCPL rather than JOBN...
 		}
-
-		
-		
+				
 		// allow user to input messages until 'QUIT' is sent
 		while (connected){
 			
@@ -155,6 +135,13 @@ public class Client {
 
 		// Exit the program
 		System.exit(1);
+	}
+
+	// receives string input and the largest server as input
+	// schedules job to largest server
+	private String toLargest(String job, Server s){
+		String[] splitStr = job.split("\\s+");
+		return "SCHD " + splitStr[2] + " " + s.getType() + " " + (s.getLimit()-1);
 	}
 
 	private void sendMessage (String outStr) {
