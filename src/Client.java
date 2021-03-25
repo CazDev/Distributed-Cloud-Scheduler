@@ -73,6 +73,7 @@ public class Client {
 		sendMessage("REDY");
 
 		// temp string to hold readMessage data
+		// we check the contents of this string, rather than call readMessage() 
 		String msg = readMessage();
 		
 		// if client receive's NONE; send quit and set connected to false
@@ -93,16 +94,25 @@ public class Client {
 			*/
 
 			int jobNo = 0;
-			while (!msg.contains("ERR")){
-				sendMessage("SCHD " + jobNo + " " + t.get(largest).getType() + " " + (t.get(largest).getLimit()-1));
-				msg = readMessage();
-				sendMessage("REDY");
-				readMessage();
-				jobNo ++;
+			while (!msg.contains("NONE")){
+				
+				if (msg.contains("JCPL")){
+					sendMessage("REDY");
+					msg = readMessage();
+				} else {
+					sendMessage("SCHD " + jobNo + " " + t.get(largest).getType() + " " + (t.get(largest).getLimit()-1));
+					msg = readMessage();
+
+					sendMessage("REDY");
+					msg = readMessage();
+
+					jobNo ++;
+				}
+
+				
 			}
 			
 			// the code above works up until JOB #6, as it sends us JCPL rather than JOBN...
-			
 		}
 
 		
