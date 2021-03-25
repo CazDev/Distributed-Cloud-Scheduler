@@ -55,16 +55,8 @@ public class Client {
 		ArrayList<Server> t = new ArrayList<Server>();
 		t = readXML("ds-system.xml");
 
-		// find index of server with most cores ie, the largest
-		int largest = 0;
-		for (int i = 0; i < t.size(); i++){
-			if (t.get(i).getCores() > largest){
-				largest = i;
-			}
-		}
-
-		// 
-		System.out.println("[Largest server: " + t.get(largest).getType() + " " + t.get(largest).getCores()+"]");
+		// find index of largest server type (most cores)
+		int largestServer = findLargest(t);
 		
 		// Hand-shake completed - client now connected
 		connected = true;
@@ -89,7 +81,7 @@ public class Client {
 				sendMessage("REDY");
 				msg = readMessage();
 			} else {
-				sendMessage(toLargest(msg, t.get(largest)));
+				sendMessage(toLargest(msg, t.get(largestServer)));
 				msg = readMessage();
 
 				sendMessage("REDY");
@@ -142,6 +134,17 @@ public class Client {
 	private String toLargest(String job, Server s){
 		String[] splitStr = job.split("\\s+");
 		return "SCHD " + splitStr[2] + " " + s.getType() + " " + (s.getLimit()-1);
+	}
+
+	// find index of largest server, relative to number of cores
+	private int findLargest(ArrayList<Server> s){
+		int largest = 0;
+		for (int i = 0; i < s.size(); i++){
+			if (s.get(i).getCores() > largest){
+				largest = i;
+			}
+		}
+		return largest;
 	}
 
 	private void sendMessage (String outStr) {
