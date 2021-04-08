@@ -88,7 +88,9 @@ public class Client {
 				msg = readMessage();
 			}
 		}
-				
+		
+		sendMessage("QUIT");
+		connected = false;
 		// allow user to input messages until 'QUIT' is sent
 		while (connected){
 			

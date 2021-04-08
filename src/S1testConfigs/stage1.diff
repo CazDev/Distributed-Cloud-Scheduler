@@ -1,4 +1,0 @@
-0a1,3
-> # ds-sim server 18-February, 2021 @ MQ - client-server
-> # Server-side simulator started with './ds-server -c ./S1testConfigs/config20-med-high.xml -v brief -n'
-> # Waiting for connection to port 50000 of IP address 127.0.0.1
