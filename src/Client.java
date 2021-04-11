@@ -63,7 +63,6 @@ public class Client {
 		// we check the contents of this string, rather than call readMessage() 
 		String msg = readMessage();
 		
-		
 		// SCHEDULES JOB TO LARGEST SERVER
 		while (connected){
 
@@ -82,7 +81,6 @@ public class Client {
 			} 
 		}
 		
-		
 		// close the connection
 		try {
 
@@ -93,7 +91,6 @@ public class Client {
 				socket.close();
 			}
 				
-			
 		} catch (IOException i) {
 			System.out.println(i);
 		}
@@ -151,7 +148,6 @@ public class Client {
 
 		// Display incoming message from server
 		//System.out.println("INC: " + inStr);
-
 		return inStr;
 	}
 
