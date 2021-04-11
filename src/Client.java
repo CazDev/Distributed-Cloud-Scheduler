@@ -48,7 +48,7 @@ public class Client {
 		readMessage();
 
 		// Send user details
-		sendMessage("AUTH user");
+		sendMessage("AUTH " + System.getProperty("user.name"));
 		readMessage();
 
 		// read ds-system xml file and populate Server ArrayList
