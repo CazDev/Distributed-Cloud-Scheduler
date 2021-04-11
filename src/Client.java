@@ -37,12 +37,7 @@ public class Client {
 	}
 
 	private void start () {
-		// keep track of if we are connected to server or not
-		boolean connected = false;
-
-		// client input
-		String outStr = "";
-
+	
 		// Initial handshake
 		sendMessage("HELO");
 		readMessage();
@@ -57,10 +52,10 @@ public class Client {
 
 		// find index of largest server type (most cores)
 		int largestServer = findLargest(t);
-		
-		// Hand-shake completed - client now connected
-		connected = true;
 
+		// handshake completed
+		boolean connected = true;
+		
 		// Tells client it is ready to recieve commands
 		sendMessage("REDY");
 
@@ -68,50 +63,26 @@ public class Client {
 		// we check the contents of this string, rather than call readMessage() 
 		String msg = readMessage();
 		
-		// if client receive's NONE; send quit and set connected to false
-		if (msg.contains("NONE")) { 
-			sendMessage("QUIT");
-			connected = false;
-		} 
 		
 		// SCHEDULES JOB TO LARGEST SERVER
-		while (!msg.contains("NONE")){
+		while (connected){
 
 			if (msg.contains("JCPL")){
 				sendMessage("REDY");
 				msg = readMessage();
-			} else {
+			} else if (msg.contains("NONE")){
+				connected = false;
+				sendMessage("QUIT");
+			}else {
 				sendMessage(toLargest(msg, t.get(largestServer)));
 				msg = readMessage();
 
 				sendMessage("REDY");
 				msg = readMessage();
-			}
+			} 
 		}
 		
-		sendMessage("QUIT");
-		connected = false;
-		// allow user to input messages until 'QUIT' is sent
-		while (connected){
-			
-			try {
-				outStr = input.readLine();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-			if (outStr.equals("QUIT")){
-				connected = false;
-				sendMessage("QUIT");
-				break;
-			}
-
-			// send first, THEN read messages
-			sendMessage(outStr);
-			readMessage();
-
-		}
-
+		
 		// close the connection
 		try {
 
