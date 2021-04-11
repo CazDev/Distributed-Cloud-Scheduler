@@ -135,18 +135,23 @@ public class Client {
 	// schedules job to largest server
 	private String toLargest(String job, Server s){
 		String[] splitStr = job.split("\\s+");
-		return "SCHD " + splitStr[2] + " " + s.getType() + " " + (s.getLimit()-1);
+		return "SCHD " + splitStr[2] + " " + s.getType() + " " + (s.getLimit()-s.getLimit());
 	}
 
 	// find index of largest server, relative to number of cores
 	private int findLargest(ArrayList<Server> s){
-		int largest = 0;
+		int lrgNum = 0;
+		int lrgIndex = 0;
+
 		for (int i = 0; i < s.size(); i++){
-			if (s.get(i).getCores() > largest){
-				largest = i;
-			}
+
+			if (s.get(i).getCores() > lrgNum){
+				lrgIndex = i;
+				lrgNum = s.get(i).getCores();
+			} 
 		}
-		return largest;
+
+		return lrgIndex;
 	}
 
 	private void sendMessage (String outStr) {
@@ -159,7 +164,7 @@ public class Client {
 		}
 
 		// Display outgoing message from client
-		System.out.println("OUT: " + outStr);
+		//System.out.println("OUT: " + outStr);
 	}
 
 	private String readMessage () {
@@ -174,7 +179,7 @@ public class Client {
 		inStr = new String(cbuf, 0, cbuf.length);
 
 		// Display incoming message from server
-		System.out.println("INC: " + inStr);
+		//System.out.println("INC: " + inStr);
 
 		return inStr;
 	}
