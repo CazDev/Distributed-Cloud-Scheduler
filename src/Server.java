@@ -8,6 +8,7 @@ public class Server {
 		int memory; 
 		int disk;
 
+		// Server constructor
 		public Server(String type, int limit, int bootTime, float hourlyRate, int coreCount, int memory, int disk){
 			this.type = type;
 			this.limit = limit;
@@ -68,7 +69,6 @@ public class Server {
 		public int getDisk() {
 			return this.disk;
 		}
-
 
         public void printData(){
              System.out.println(this.type + " " + this.limit + " " + this.bootTime + " " + this.hourlyRate + " " + this.coreCount + " " + this.memory + " " + this.disk);
