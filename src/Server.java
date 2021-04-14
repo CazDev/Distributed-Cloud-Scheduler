@@ -28,7 +28,9 @@ public class Server {
 			return "null";
 		}
 
+		//
 		// type: an identifier of job category based on run time
+		//
 		public String getType() {
 			return this.type;
 		}
@@ -41,13 +43,16 @@ public class Server {
 			return this.limit; // the number of servers of a particular type
 		}
 
+		//
 		// bootupTime: the amount of time taken to boot a server of a particular type
+		//
 		public int getBootupTime() {
 			return this.bootTime;
 		}
 
+		//
 		// hourlyRate: the monetary cost for renting a server of a particular type per
-		// hour
+		// 
 		public Float getHourlyRate() {
 			return this.hourlyRate;
 		}
@@ -60,17 +65,23 @@ public class Server {
 			return this.coreCount;
 		}
 
+		//
 		// memory: the amount of RAM (in MB)
+		//
 		public int getMemory() {
 			return this.memory;
 		}
 
+		//
 		// disk: the amount of disk space (in MB)
+		//
 		public int getDisk() {
 			return this.disk;
 		}
 
+		//
 		// disk: the amount of disk space (in MB)
+		//
         public void printData(){
              System.out.println(this.type + " " + this.limit + " " + this.bootTime + " " + this.hourlyRate + " " + this.coreCount + " " + this.memory + " " + this.disk);
         }
