@@ -70,6 +70,7 @@ public class Server {
 			return this.disk;
 		}
 
+		// disk: the amount of disk space (in MB)
         public void printData(){
              System.out.println(this.type + " " + this.limit + " " + this.bootTime + " " + this.hourlyRate + " " + this.coreCount + " " + this.memory + " " + this.disk);
         }
