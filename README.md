@@ -9,7 +9,6 @@ Furthermore, "*ds-server*", "*ds-client*", and "*ds-sample-config01.xml*" can al
 ---
 
 ### Documentation:
-DS-SIM User Guide
 [DS-SIM User Guide](https://github.com/CazDev/Distributed-Cloud-Scheduler/blob/main/ds-sim_user-guide.pdf)
 
 ---
