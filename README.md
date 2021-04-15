@@ -9,9 +9,11 @@ Furthermore, "*ds-server*", "*ds-client*", and "*ds-sample-config01.xml*" can al
 ---
 
 ### Documentation:
-[DS-SIM User Guide](https://github.com/CazDev/Distributed-Cloud-Scheduler/blob/main/ds-sim_user-guide.pdf)
+[DS-SIM User Guide](https://github.com/CazDev/Distributed-Cloud-Scheduler/blob/main/ds-sim_user-guide.pdf) 
+* Document provided for us explaining how ds-sim works.
 
-[Link to our report](https://docs.google.com/document/d/1kHrxT7rAhPvqmFNkg8pj5WfXkosZcRVqPDlhcM4_vsc/edit?usp=sharing)
+[Distributed Cloud Scheduler Documentation](https://docs.google.com/document/d/1kHrxT7rAhPvqmFNkg8pj5WfXkosZcRVqPDlhcM4_vsc/edit?usp=sharing)
+* More in-depth documentation for this project.
 
 ---
 
