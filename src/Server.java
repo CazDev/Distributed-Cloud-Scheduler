@@ -18,16 +18,7 @@ public class Server {
 			this.memory = memory;
 			this.disk = disk;
 		}
-
-
-		// TODO:
-		// Identification
-		//
-		// id: a sequence number based on the submission time
-		public String getId() {
-			return "null";
-		}
-
+		
 		//
 		// type: an identifier of job category based on run time
 		//
