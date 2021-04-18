@@ -1,9 +1,4 @@
 public class Server {
-
-		/* 
-			These fields are based on the data contained in ds-system.xml 
-		*/
-
 		String type; 
 		int limit; 
 		int bootTime;
