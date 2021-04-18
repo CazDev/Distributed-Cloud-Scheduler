@@ -104,6 +104,10 @@ public class Client {
 	private String toLargest(String job, Server s){
 		String[] splitStr = job.split("\\s+");
 		return "SCHD " + splitStr[2] + " " + s.getType() + " " + (s.getLimit()-s.getLimit());
+		
+		// the index [2] represents the job ID from the String "job"
+		//		This string is sent by ds-server to the client 
+		
 	}
 
 	// find index of largest server, relative to number of cores
@@ -122,6 +126,13 @@ public class Client {
 		return lrgIndex;
 	}
 
+
+	/* 
+		We have chosen to comment out the console printing portions of
+		sendMessage() and readMessage() as it significantly reduces the
+		speed of the test files/scripts. 
+	*/
+
 	private void sendMessage (String outStr) {
 		// send message to server
 		byte[] byteMsg = outStr.getBytes();
@@ -132,7 +143,7 @@ public class Client {
 		}
 
 		// Display outgoing message from client
-		//System.out.println("OUT: " + outStr);
+		//System.out.println("OUT: " + outStr);		
 	}
 
 	private String readMessage () {
@@ -181,6 +192,7 @@ public class Client {
 		client.start();
 	}
 
+	
 	public static ArrayList<Server> readXML(String fileName){
         ArrayList<Server> serverList = new ArrayList<Server>();
 		
