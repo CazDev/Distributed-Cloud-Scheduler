@@ -193,6 +193,7 @@ public class Client {
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(systemXML);
 
+			// String converting to normalized form
 			doc.getDocumentElement().normalize();
 			NodeList servers = doc.getElementsByTagName("server");
 			for (int i = 0; i < servers.getLength(); i++) {
