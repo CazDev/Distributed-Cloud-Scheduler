@@ -1,0 +1,4 @@
+[ZoneTransfer]
+ZoneId=3
+ReferrerUrl=https://github.com/distsys-MQ/ds-sim/blob/master/src/pre-compiled/ds-server
+HostUrl=https://raw.githubusercontent.com/distsys-MQ/ds-sim/master/src/pre-compiled/ds-server
